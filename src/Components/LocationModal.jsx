@@ -1,19 +1,44 @@
 import { X, LocateFixed } from "lucide-react";
+import getGeoCoding from "../Services/getGeoCoding";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const LocationModal = ({ setClick }) => {
-  const handleTextBtn = (e) => {
+    const navigate = useNavigate()
+    const [error, setError] = useState('')
+
+  const handleTextBtn = async(e) => {
     e.preventDefault();
-    console.log(e.target.cityName.value);
+    const cityName = e.target.cityName.value
+    if(!cityName){
+        setError("Please Enter your City Name")
+        return
+    }
+    try {
+        const cityInfo = await getGeoCoding(cityName)
+        if(!cityInfo){
+           setError('Something went wrong!')
+           return
+        }
+        navigate('/weather', {state:cityInfo})
+    } catch (error) {
+        setError(error);
+    }
+    
   };
 
   const handleGeoLocation = () => {
+    if(!navigator.geolocation){
+        setError("Geo Location Not Found!")
+        return
+    }
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const {latitude, longitude} = position.coords;
-        console.log({latitude, longitude});
+        navigate('/weather',{state:{latitude, longitude, name:"Your Location"}});
       },
       (error) => {
-        console.log(error);
+        setError(error.message);
       },
       {
         timeout: 10000
@@ -22,8 +47,8 @@ const LocationModal = ({ setClick }) => {
   };
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-gray-950/60">
-      <div className="shadow-2xl w-100 h-75 bg-gray-100 py-2 px-5 rounded-xl">
-        <div className="flex justify-between mt-3">
+      <div className="shadow-2xl w-100  bg-gray-100 py-6 px-5 rounded-xl">
+        <div className="flex justify-between">
           <h1 className="text-xl font-medium">Where are you today....</h1>
           <button onClick={() => setClick(false)} className="cursor-pointer">
             <X />
@@ -53,6 +78,7 @@ const LocationModal = ({ setClick }) => {
            <LocateFixed /> Use my Location
           </button>
         </div>
+        <p className="text-red-600 text-center">{error}</p>
       </div>
     </div>
   );
