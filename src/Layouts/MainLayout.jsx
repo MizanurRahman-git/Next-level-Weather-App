@@ -1,8 +1,9 @@
+import { Outlet } from "react-router";
 
 const MainLayout = () => {
     return (
-        <div>
-            <h1>Main Layouts</h1>
+        <div className="min-h-screen flex justify-center items-center">
+           <Outlet/>
         </div>
     );
 };
