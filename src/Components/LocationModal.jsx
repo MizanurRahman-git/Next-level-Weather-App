@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { X, LocateFixed } from "lucide-react";
 
 const LocationModal = ({ setClick }) => {
   const handleTextBtn = (e) => {
@@ -48,9 +48,9 @@ const LocationModal = ({ setClick }) => {
         <div className="text-center mt-1.5">
           <button
             onClick={handleGeoLocation}
-            className="w-full text-lg font-medium px-5 py-1 bg-blue-500 rounded-3xl text-gray-100 cursor-pointer hover:scale-105 transition-all delay-75"
+            className="flex justify-center items-center w-full text-lg font-medium px-5 py-1 bg-blue-500 rounded-3xl text-gray-100 cursor-pointer hover:scale-105 transition-all delay-75"
           >
-            Use my Location
+           <LocateFixed /> Use my Location
           </button>
         </div>
       </div>
