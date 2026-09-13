@@ -1,4 +1,4 @@
-import { Podcast, X } from "lucide-react";
+import { X } from "lucide-react";
 
 const LocationModal = ({ setClick }) => {
   const handleTextBtn = (e) => {
