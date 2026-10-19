@@ -15,7 +15,7 @@ const Weather = () => {
     description,
     conditionalLabel,
   } = weatherInfo;
-  
+
   useEffect(() => {
     if (!place) {
       return;
