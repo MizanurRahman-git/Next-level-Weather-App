@@ -6,18 +6,18 @@ import Weather from "../pages/Weather";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout/>,
-    children:[
+    element: <MainLayout />,
+    children: [
       {
         index: true,
-        Component: Home
+        Component: Home,
       },
       {
-        path:"weather",
-        Component: Weather
-      }
-    ]
+        path: "weather",
+        Component: Weather,
+      },
+    ],
   },
 ]);
 
-export default router
+export default router;
