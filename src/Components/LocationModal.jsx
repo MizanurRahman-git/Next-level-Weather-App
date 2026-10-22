@@ -4,45 +4,46 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 
 const LocationModal = ({ setClick }) => {
-    const navigate = useNavigate()
-    const [error, setError] = useState('')
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const handleTextBtn = async(e) => {
+  const handleTextBtn = async (e) => {
     e.preventDefault();
-    const cityName = e.target.cityName.value
-    if(!cityName){
-        setError("Please Enter your City Name")
-        return
+    const cityName = e.target.cityName.value;
+    if (!cityName) {
+      setError("Please Enter your City Name");
+      return;
     }
     try {
-        const cityInfo = await getGeoCoding(cityName)
-        if(!cityInfo){
-           setError('Something went wrong!')
-           return
-        }
-        navigate('/weather', {state:cityInfo})
+      const cityInfo = await getGeoCoding(cityName);
+      if (!cityInfo) {
+        setError("Something went wrong!");
+        return;
+      }
+      navigate("/weather", { state: cityInfo });
     } catch (error) {
-        setError(error);
+      setError(error);
     }
-    
   };
 
   const handleGeoLocation = () => {
-    if(!navigator.geolocation){
-        setError("Geo Location Not Found!")
-        return
+    if (!navigator.geolocation) {
+      setError("Geo Location Not Found!");
+      return;
     }
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const {latitude, longitude} = position.coords;
-        navigate('/weather',{state:{latitude, longitude, name:"Your Location"}});
+        const { latitude, longitude } = position.coords;
+        navigate("/weather", {
+          state: { latitude, longitude, name: "Your Location" },
+        });
       },
       (error) => {
         setError(error.message);
       },
       {
-        timeout: 10000
-      }
+        timeout: 10000,
+      },
     );
   };
   return (
@@ -75,7 +76,7 @@ const LocationModal = ({ setClick }) => {
             onClick={handleGeoLocation}
             className="flex justify-center items-center w-full text-lg font-medium px-5 py-1 bg-blue-500 rounded-3xl text-gray-100 cursor-pointer hover:scale-105 transition-all delay-75"
           >
-           <LocateFixed /> Use my Location
+            <LocateFixed /> Use my Location
           </button>
         </div>
         <p className="text-red-600 text-center">{error}</p>
